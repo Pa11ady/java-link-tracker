@@ -1,16 +1,20 @@
-package ru.tinkoff.edu.java.linkparser;
+package ru.tinkoff.edu.java.linkparser.parser;
+
+import ru.tinkoff.edu.java.linkparser.dto.LinkInfo;
+import ru.tinkoff.edu.java.linkparser.dto.StackOverflowInfo;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class StackOverflowLinkParser implements LinkParser {
-    private final LinkParser nextParser;
+public class StackOverflowLinkParser extends AbstractParser {
 
     public StackOverflowLinkParser(LinkParser nextParser) {
-        this.nextParser = nextParser;
+        super(nextParser);
     }
 
-    public LinkInfo parseLink(String url) {
+    @Override
+    public LinkInfo parse(String url) {
+        LinkInfo linkInfo = null;
         try {
             URI uri = new URI(url);
             String host = uri.getHost();
@@ -20,7 +24,7 @@ public class StackOverflowLinkParser implements LinkParser {
                 if (segments.length >= 3) {
                     String id = segments[2];
                     if ("questions".equals(segments[1])) {
-                        return new StackOverflowInfoRecord(id);
+                        linkInfo = new StackOverflowInfo(id);
                     }
                 }
             }
@@ -28,7 +32,7 @@ public class StackOverflowLinkParser implements LinkParser {
             e.printStackTrace();    //возможно тут лучше было бы логировать
         }
 
-        return nextParser.parseLink(url);
+        return linkInfo;
     }
 }
 

@@ -1,16 +1,19 @@
-package ru.tinkoff.edu.java.linkparser;
+package ru.tinkoff.edu.java.linkparser.parser;
+
+import ru.tinkoff.edu.java.linkparser.dto.GitInfo;
+import ru.tinkoff.edu.java.linkparser.dto.LinkInfo;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class GitLinkParser implements LinkParser {
-    private final LinkParser nextParser;
-
+public class GitLinkParser extends AbstractParser {
     public GitLinkParser(LinkParser nextParser) {
-        this.nextParser = nextParser;
+        super(nextParser);
     }
 
-    public LinkInfo parseLink(String url) {
+    @Override
+    public LinkInfo parse(String url) {
+        LinkInfo linkInfo = null;
         try {
             URI uri = new URI(url);
             String host = uri.getHost();
@@ -20,13 +23,13 @@ public class GitLinkParser implements LinkParser {
                 if (segments.length >= 3) {
                     String userName = segments[1];
                     String repoName = segments[2];
-                    return new GitInfoRecord(userName, repoName);
+                    linkInfo = new GitInfo(userName, repoName);
                 }
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        return nextParser.parseLink(url);
+        return linkInfo;
     }
 }
