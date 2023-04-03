@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.tinkoff.edu.java.linkparser.dto.GitInfo;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GitLinkParserTest {

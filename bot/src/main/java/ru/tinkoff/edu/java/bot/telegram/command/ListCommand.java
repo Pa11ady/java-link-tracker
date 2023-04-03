@@ -21,6 +21,6 @@ public class ListCommand extends AbstractCommand {
         printCommand(absSender, chat);
         String userName = user.getUserName();
         log.info(String.format("Пользователь %s. Команда %s", userName, this.getCommandIdentifier()));
-        sendAnswer(absSender, chat.getId(), "Список ссылок пусть.");
+        sendAnswer(absSender, chat.getId(), "Список ссылок пуст");
     }
 }
