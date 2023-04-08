@@ -31,7 +31,7 @@ abstract class AbstractCommand extends BotCommand {
         absSender.execute(message);
     }
 
-    final void checkUrlIsOne(String[] url) {
+    final void checkArraySizeIsOne(String[] url) {
         if (url.length != 1) {
             String message = "После команды \\" + getCommandIdentifier() + " только один Url в одну строку";
             throw new IllegalArgumentException(message);

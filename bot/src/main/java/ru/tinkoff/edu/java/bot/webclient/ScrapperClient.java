@@ -13,8 +13,4 @@ public interface ScrapperClient {
     boolean regChat(long chatId);
 
     boolean delChat(long chatId);
-
-
-
-
 }

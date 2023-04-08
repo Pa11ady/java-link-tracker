@@ -21,7 +21,7 @@ public class TrackCommand extends AbstractCommand {
         String userName = user.getUserName();
         log.info(String.format("Пользователь %s. Команда %s", userName, this.getCommandIdentifier()));
         try {
-            checkUrlIsOne(arguments);
+            checkArraySizeIsOne(arguments);
             validateUrl(arguments[0]);
         } catch (IllegalArgumentException e) {
             sendAnswer(absSender, chat.getId(), e.getMessage());

@@ -4,10 +4,14 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.telegram.command.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
@@ -17,6 +21,21 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
 
     @Getter
     private final NonCommand nonCommand;
+
+    /**
+     * @param commands команды кроме help, которая уже вшита по умолчанию
+     * @param botUsername
+     * @param botToken
+     */
+    public TelegramBot(IBotCommand[] commands, String botUsername, String botToken) {
+        BotUsername = botUsername;
+        BotToken = botToken;
+
+        nonCommand = new NonCommand();
+        registerAll(commands);
+        HelpCommand helpCommand = new HelpCommand(this);
+        register(helpCommand);
+    }
 
     public TelegramBot(String botUsername, String botToken) {
         BotUsername = botUsername;
