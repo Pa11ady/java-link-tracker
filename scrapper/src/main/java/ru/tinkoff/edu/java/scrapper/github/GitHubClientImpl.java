@@ -11,7 +11,7 @@ public class GitHubClientImpl implements GitHubClient {
     private final WebClient webClient;
 
     @Autowired
-    public GitHubClientImpl( @Qualifier("webClientGit") WebClient webClient) {
+    public GitHubClientImpl(@Qualifier("webClientGit") WebClient webClient) {
         this.webClient = webClient;
     }
 

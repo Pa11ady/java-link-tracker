@@ -1,4 +1,4 @@
-package integration;
+package ru.tinkoff.edu.java.scrapper.integration;
 
 import org.junit.jupiter.api.Test;
 
