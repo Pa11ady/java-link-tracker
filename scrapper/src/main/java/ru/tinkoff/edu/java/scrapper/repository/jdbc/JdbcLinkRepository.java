@@ -56,4 +56,10 @@ public class JdbcLinkRepository implements LinkRepository {
         jdbcTemplate.update(sql, link.getUrl(), link.getUpdated(), link.getId());
         return link;
     }
+
+    @Override
+    public void updateToCurrentDate(Long linkId) {
+        final String sql = "UPDATE link SET updated = NOW() WHERE id = ?";
+        jdbcTemplate.update(sql, linkId);
+    }
 }
