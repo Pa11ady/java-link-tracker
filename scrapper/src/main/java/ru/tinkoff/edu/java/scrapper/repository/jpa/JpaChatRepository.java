@@ -3,16 +3,12 @@ package ru.tinkoff.edu.java.scrapper.repository.jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 import java.util.List;
 
-@Primary
 @RequiredArgsConstructor
-@Repository
 public class JpaChatRepository implements ChatRepository {
     private final EntityManager entityManager;
 

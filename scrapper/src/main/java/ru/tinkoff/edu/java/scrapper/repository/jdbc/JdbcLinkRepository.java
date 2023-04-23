@@ -3,7 +3,6 @@ package ru.tinkoff.edu.java.scrapper.repository.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.model.Link;
 import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
 
@@ -11,7 +10,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Repository
 public class JdbcLinkRepository implements LinkRepository {
     private final JdbcTemplate jdbcTemplate;
 
