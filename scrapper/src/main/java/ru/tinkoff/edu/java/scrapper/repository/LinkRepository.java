@@ -17,4 +17,6 @@ public interface LinkRepository {
     List<Link> findOldLinks(OffsetDateTime offsetDateTime);
 
     Link update(Link link);
+
+    void updateToCurrentDate(Long linkId);
 }

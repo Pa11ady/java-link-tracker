@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.linkparser.dto.GitInfo;
 import ru.tinkoff.edu.java.linkparser.dto.LinkInfo;
 import ru.tinkoff.edu.java.linkparser.dto.StackOverflowInfo;
@@ -38,14 +39,12 @@ public class UpdateServiceImpl implements UpdateService {
     @Value("${app.link-age}")
     private Long updateAge;
 
+    @Transactional
     @Override
     public void update() {
         List<Link> oldLinks = linkRepository.findOldLinks(OffsetDateTime.now().minusSeconds(updateAge));
         for (Link link : oldLinks) {
             LinkInfo linkInfo = parseUrl(link.getUrl());
-            if (linkInfo == null) {
-                continue;
-            }
             if (linkInfo instanceof GitInfo gitInfo) {
                 log.info("Git: " + gitInfo.userName() + "/" + gitInfo.repoName());
                 updateFromGutHub(gitInfo.userName(), gitInfo.repoName(), link);
@@ -54,28 +53,47 @@ public class UpdateServiceImpl implements UpdateService {
                 log.info("StackOverflow: " + stackOverflowInfo.id());
                 updateFromStackOverflow(stackOverflowInfo.id(), link);
             }
+            //В любом случае отмечаем, что ссылку уже посмотрели, даже если это неправильная ссылка
+            linkRepository.updateToCurrentDate(link.getId());
         }
     }
 
     private void updateFromGutHub(String user, String repository, Link link) {
+        String description = "";
         RepoResponse response = gitHubClient.findRepository(user, repository);
-        if (link.getUpdated().isBefore(response.updated_at())) {
-            link.setUpdated(response.updated_at());
-            linkRepository.update(link);
-            notifyBot(link);
-            log.info("Обновляем ссылку...");
+        OffsetDateTime lastUpdated = response.updated_at();
+        OffsetDateTime lastPushed = response.pushed_at();
+
+        if (lastUpdated != null && link.getUpdated().isBefore(lastUpdated)) {
+            description = "репозиторий был обновлён";
+            notifyBot(link, description);
+            log.info(link.getUrl() + " " + description);
+            log.info(response.toString());
+        }
+        if (lastPushed != null && link.getUpdated().isBefore(lastPushed)) {
+            description = "появились новые коммиты";
+            notifyBot(link, description);
+            log.info(link.getUrl() + " " + description);
             log.info(response.toString());
         }
     }
 
     private void updateFromStackOverflow(String questionId, Link link) {
+        String description = "";
         QuestionResponse response = stackOverflowClient.findQuestion(questionId);
-        OffsetDateTime lastEdiDate = response.items().get(0).last_edit_date();
-        if (link.getUpdated().isBefore(lastEdiDate)) {
-            link.setUpdated(lastEdiDate);
-            linkRepository.update(link);
-            notifyBot(link);
-            log.info("Обновляем ссылку...");
+        OffsetDateTime lastEditDate = response.items().get(0).last_edit_date();
+        OffsetDateTime lastActivityDate = response.items().get(0).last_activity_date();
+
+        if (lastEditDate != null && link.getUpdated().isBefore(lastEditDate)) {
+            description = "вопрос был обновлён";
+            notifyBot(link, description);
+            log.info(link.getUrl() + " " + description);
+            log.info(response.toString());
+        }
+        if (lastActivityDate != null && link.getUpdated().isBefore(lastActivityDate)) {
+            description = "есть активность по вопросу";
+            notifyBot(link, description);
+            log.info(link.getUrl() + " " + description);
             log.info(response.toString());
         }
     }
@@ -85,7 +103,7 @@ public class UpdateServiceImpl implements UpdateService {
         return parserChain.parseLink(url);
     }
 
-    public void notifyBot(Link link) {
+    public void notifyBot(Link link, String description) {
         List<Long> tgChatIds = subscriptionRepository.findAllByLink(link.getId())
                 .stream()
                 .map(Chat::getId)
@@ -94,7 +112,7 @@ public class UpdateServiceImpl implements UpdateService {
         LinkUpdate update = new LinkUpdate(
                 link.getId(),
                 URI.create(link.getUrl()),
-                "есть обновление",
+                description,
                 tgChatIds
         );
         botClient.sendUpdate(update);
