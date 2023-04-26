@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import ru.tinkoff.edu.java.scrapper.botclient.BotClient;
 import ru.tinkoff.edu.java.scrapper.scheduler.Scheduler;
 
 import java.time.Duration;
@@ -24,7 +25,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public Scheduler scheduler1() {
+    public Scheduler scheduler() {
         return new Scheduler(interval);
+    }
+
+    @Bean
+    public BotClient botClient() {
+        return BotClient.create();
     }
 }
