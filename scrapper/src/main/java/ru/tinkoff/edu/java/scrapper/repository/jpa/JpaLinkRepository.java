@@ -3,17 +3,13 @@ package ru.tinkoff.edu.java.scrapper.repository.jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.model.Link;
 import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Primary
 @RequiredArgsConstructor
-@Repository
 public class JpaLinkRepository implements LinkRepository {
     private final EntityManager entityManager;
 

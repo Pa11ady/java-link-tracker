@@ -3,14 +3,12 @@ package ru.tinkoff.edu.java.scrapper.repository.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@Repository
 public class JdbcChatRepository implements ChatRepository {
     private final JdbcTemplate jdbcTemplate;
 
