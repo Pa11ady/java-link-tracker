@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.tinkoff.edu.java.scrapper.model.Link;
-import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class JdbcLinkRepository implements LinkRepository {
+public class LinkRepository implements ru.tinkoff.edu.java.scrapper.repository.LinkRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override

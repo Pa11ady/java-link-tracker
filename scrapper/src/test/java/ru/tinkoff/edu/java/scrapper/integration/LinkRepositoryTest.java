@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.model.Link;
-import ru.tinkoff.edu.java.scrapper.repository.jdbc.JdbcLinkRepository;
+import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -13,17 +13,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @SpringBootTest
-class JdbcLinkRepositoryTest extends IntegrationEnvironment {
+class LinkRepositoryTest extends IntegrationEnvironment {
     final String URL1 = "https://github.com/sanyarnd/tiff-java-course-2022";
     final String URL2 = "https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c";
     final String URL3 = "https://github.com/sanyarnd/tiff-java-course-2023";
 
     @Autowired
-    JdbcLinkRepository jdbcLinkRepository;
+    LinkRepository linkRepository;
 
     @Test
     void add() {
@@ -31,7 +30,7 @@ class JdbcLinkRepositoryTest extends IntegrationEnvironment {
         String url = URL1;
 
         //when
-        Link link = jdbcLinkRepository.add(url);
+        Link link = linkRepository.add(url);
 
         //then
         assertEquals(url, link.getUrl());
@@ -41,26 +40,26 @@ class JdbcLinkRepositoryTest extends IntegrationEnvironment {
     void remove() {
         // given
         String url = URL1;
-        Long linkId = jdbcLinkRepository.add(url).getId();
-        assertEquals(url, jdbcLinkRepository.findByUrl(url).getUrl());
+        Long linkId = linkRepository.add(url).getId();
+        assertEquals(url, linkRepository.findByUrl(url).getUrl());
 
         // when
-        jdbcLinkRepository.remove(linkId);
+        linkRepository.remove(linkId);
 
         //then
-        assertNull(jdbcLinkRepository.findByUrl(url));
+        assertNull(linkRepository.findByUrl(url));
     }
 
     @Test
     void findAll() {
         //given
         List<Link> links = new ArrayList<>();
-        links.add(jdbcLinkRepository.add(URL1));
-        links.add(jdbcLinkRepository.add(URL2));
-        links.add(jdbcLinkRepository.add(URL3));
+        links.add(linkRepository.add(URL1));
+        links.add(linkRepository.add(URL2));
+        links.add(linkRepository.add(URL3));
 
         //when
-        List<Link> result = jdbcLinkRepository
+        List<Link> result = linkRepository
                 .findAll()
                 .stream()
                 .sorted(Comparator.comparing(Link::getId))
@@ -74,11 +73,11 @@ class JdbcLinkRepositoryTest extends IntegrationEnvironment {
     void findByUrl() {
         // given
         String url = URL1;
-        Link link = jdbcLinkRepository.add(url);
-        assertEquals(url, jdbcLinkRepository.findByUrl(url).getUrl());
+        Link link = linkRepository.add(url);
+        assertEquals(url, linkRepository.findByUrl(url).getUrl());
 
         // when
-        Link result = jdbcLinkRepository.findByUrl(url);
+        Link result = linkRepository.findByUrl(url);
 
         //then
         assertEquals(link, result);
@@ -87,11 +86,11 @@ class JdbcLinkRepositoryTest extends IntegrationEnvironment {
     @Test
     void findOldLinks() {
         // given
-        Link link = jdbcLinkRepository.add(URL1);
+        Link link = linkRepository.add(URL1);
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMinutes(10);
 
         // when
-        List<Link> result = jdbcLinkRepository.findOldLinks(offsetDateTime);
+        List<Link> result = linkRepository.findOldLinks(offsetDateTime);
 
         //then
         assertEquals(link, result.get(0));
@@ -101,14 +100,14 @@ class JdbcLinkRepositoryTest extends IntegrationEnvironment {
     void update() {
         // given
         String url = URL2;
-        Link link = jdbcLinkRepository.add(URL1);
+        Link link = linkRepository.add(URL1);
         link.setUrl(url);
 
         // when
-        jdbcLinkRepository.update(link);
+        linkRepository.update(link);
 
         //then
-        Link result = jdbcLinkRepository.findByUrl(url);
+        Link result = linkRepository.findByUrl(url);
         assertEquals(link.getId(), result.getId());
         assertEquals(url, result.getUrl());
     }

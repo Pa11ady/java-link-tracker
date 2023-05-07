@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
-import ru.tinkoff.edu.java.scrapper.repository.jdbc.JdbcChatRepository;
+import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-class JdbcChatRepositoryTest extends IntegrationEnvironment {
+class ChatRepositoryTest extends IntegrationEnvironment {
 
     @Autowired
-    JdbcChatRepository jdbcChatRepository;
+    ChatRepository chatRepository;
 
     @Test
     void add() {
@@ -24,11 +24,11 @@ class JdbcChatRepositoryTest extends IntegrationEnvironment {
         Long chatId = 100500L;
 
         // when
-        Chat chatAdd = jdbcChatRepository.add(chatId);
+        Chat chatAdd = chatRepository.add(chatId);
 
         //then
         assertEquals(chatId, chatAdd.getId());
-        Chat chatFind = jdbcChatRepository.findById(chatId);
+        Chat chatFind = chatRepository.findById(chatId);
         assertEquals(chatId, chatFind.getId());
     }
 
@@ -36,24 +36,24 @@ class JdbcChatRepositoryTest extends IntegrationEnvironment {
     void remove() {
         // given
         Long chatId = 100500L;
-        jdbcChatRepository.add(chatId);
-        assertEquals(chatId, jdbcChatRepository.findById(chatId).getId());
+        chatRepository.add(chatId);
+        assertEquals(chatId, chatRepository.findById(chatId).getId());
 
         // when
-        jdbcChatRepository.remove(chatId);
+        chatRepository.remove(chatId);
 
         //then
-        assertNull(jdbcChatRepository.findById(chatId));
+        assertNull(chatRepository.findById(chatId));
     }
 
     @Test
     void findAll() {
         //given
         List<Long> ids = List.of(10L, 20L, 30L);
-        ids.forEach(x -> jdbcChatRepository.add(x));
+        ids.forEach(x -> chatRepository.add(x));
 
         //when
-        List<Long> result = jdbcChatRepository.findAll().stream().map(Chat::getId).sorted().toList();
+        List<Long> result = chatRepository.findAll().stream().map(Chat::getId).sorted().toList();
 
         //then
         assertIterableEquals(ids, result);
@@ -63,11 +63,11 @@ class JdbcChatRepositoryTest extends IntegrationEnvironment {
     void findById() {
         // given
         Long chatId = 1001L;
-        jdbcChatRepository.add(chatId);
-        assertEquals(chatId, jdbcChatRepository.findById(chatId).getId());
+        chatRepository.add(chatId);
+        assertEquals(chatId, chatRepository.findById(chatId).getId());
 
         // when
-        Long actualId = jdbcChatRepository.findById(chatId).getId();
+        Long actualId = chatRepository.findById(chatId).getId();
 
         //then
         assertEquals(chatId, actualId);

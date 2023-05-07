@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
-import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class JdbcChatRepository implements ChatRepository {
+public class ChatRepository implements ru.tinkoff.edu.java.scrapper.repository.ChatRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override

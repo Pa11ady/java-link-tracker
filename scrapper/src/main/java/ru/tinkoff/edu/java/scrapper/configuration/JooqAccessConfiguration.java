@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
-import ru.tinkoff.edu.java.scrapper.repository.LinkRepository;
-import ru.tinkoff.edu.java.scrapper.repository.jdbc.JdbcLinkRepository;
+import ru.tinkoff.edu.java.scrapper.repository.jdbc.LinkRepository;
 import ru.tinkoff.edu.java.scrapper.repository.jooq.JooqChatRepository;
 
 @Configuration
@@ -25,7 +24,7 @@ public class JooqAccessConfiguration {
     }
 
     @Bean
-    public LinkRepository linkRepository() {
-        return new JdbcLinkRepository(jdbcTemplate);
+    public ru.tinkoff.edu.java.scrapper.repository.LinkRepository linkRepository() {
+        return new LinkRepository(jdbcTemplate);
     }
 }

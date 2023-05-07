@@ -7,13 +7,12 @@ import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
 import ru.tinkoff.edu.java.scrapper.model.Link;
 import ru.tinkoff.edu.java.scrapper.model.Subscription;
-import ru.tinkoff.edu.java.scrapper.repository.SubscriptionRepository;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-public class JdbcSubscriptionRepository implements SubscriptionRepository {
+public class SubscriptionRepository implements ru.tinkoff.edu.java.scrapper.repository.SubscriptionRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
