@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scrapper/**'
+      - .github/workflows/scrapper.yml
 
   pull_request:
     paths:

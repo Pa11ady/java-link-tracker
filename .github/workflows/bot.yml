@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'bot/**'
+      - .github/workflows/bot.yml
       
   pull_request:
     paths:
