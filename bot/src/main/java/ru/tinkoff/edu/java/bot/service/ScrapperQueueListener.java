@@ -12,9 +12,12 @@ import ru.tinkoff.edu.java.bot.dto.LinkUpdate;
 @RabbitListener(queues = "${bot.rabbit.queue}")
 @RequiredArgsConstructor
 public class ScrapperQueueListener {
+    private final BotService botService;
+
     @RabbitHandler
     public void listen(LinkUpdate update) {
         log.info("rabbit");
         log.info(update.toString());
+        botService.notify(update);
     }
 }
