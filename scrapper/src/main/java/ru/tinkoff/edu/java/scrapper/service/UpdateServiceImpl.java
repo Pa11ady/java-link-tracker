@@ -11,8 +11,7 @@ import ru.tinkoff.edu.java.linkparser.dto.StackOverflowInfo;
 import ru.tinkoff.edu.java.linkparser.parser.GitLinkParser;
 import ru.tinkoff.edu.java.linkparser.parser.LinkParser;
 import ru.tinkoff.edu.java.linkparser.parser.StackOverflowLinkParser;
-import ru.tinkoff.edu.java.scrapper.botclient.BotClient;
-import ru.tinkoff.edu.java.scrapper.botclient.dto.LinkUpdate;
+import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
 import ru.tinkoff.edu.java.scrapper.github.GitHubClient;
 import ru.tinkoff.edu.java.scrapper.github.dto.RepoResponse;
 import ru.tinkoff.edu.java.scrapper.model.Chat;
@@ -32,7 +31,7 @@ import java.util.List;
 public class UpdateServiceImpl implements UpdateService {
     private final LinkRepository linkRepository;
     private final SubscriptionRepository subscriptionRepository;
-    private final BotClient botClient;
+    private final MessageService messageService;
     private final GitHubClient gitHubClient;
     private final StackOverflowClient stackOverflowClient;
 
@@ -59,7 +58,7 @@ public class UpdateServiceImpl implements UpdateService {
     }
 
     private void updateFromGutHub(String user, String repository, Link link) {
-        String description = "";
+        String description;
         RepoResponse response = gitHubClient.findRepository(user, repository);
         OffsetDateTime lastUpdated = response.updated_at();
         OffsetDateTime lastPushed = response.pushed_at();
@@ -79,7 +78,7 @@ public class UpdateServiceImpl implements UpdateService {
     }
 
     private void updateFromStackOverflow(String questionId, Link link) {
-        String description = "";
+        String description;
         QuestionResponse response = stackOverflowClient.findQuestion(questionId);
         OffsetDateTime lastEditDate = response.items().get(0).last_edit_date();
         OffsetDateTime lastActivityDate = response.items().get(0).last_activity_date();
@@ -115,6 +114,6 @@ public class UpdateServiceImpl implements UpdateService {
                 description,
                 tgChatIds
         );
-        botClient.sendUpdate(update);
+        messageService.send(update);
     }
 }

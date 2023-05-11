@@ -10,9 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.telegram.command.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Getter
 public class TelegramBot extends TelegramLongPollingCommandBot {
@@ -61,5 +58,13 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         answer.setText(result);
         answer.setChatId(chatId.toString());
         execute(answer);
+    }
+
+    @SneakyThrows
+    public void sendMessage(Long chatId, String text) {
+       SendMessage message = new SendMessage();
+       message.setChatId(chatId.toString());
+       message.setText(text);
+       execute(message);
     }
 }
