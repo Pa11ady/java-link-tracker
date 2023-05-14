@@ -6,14 +6,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.bot.dto.LinkUpdateRequest;
+import ru.tinkoff.edu.java.bot.metric.ProcessedMessageMetric;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class BotController {
+    private final ProcessedMessageMetric processedMessageMetric;
 
     @PostMapping("/updates")
     public void sendUpdate(@RequestBody LinkUpdateRequest request) {
         log.info(request.toString());
+        processedMessageMetric.incrementProcessedMessageCount();
     }
 }
