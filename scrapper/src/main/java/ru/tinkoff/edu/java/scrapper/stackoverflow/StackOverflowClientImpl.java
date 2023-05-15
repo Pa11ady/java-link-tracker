@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.tinkoff.edu.java.scrapper.github.dto.RepoResponse;
 import ru.tinkoff.edu.java.scrapper.stackoverflow.dto.QuestionResponse;
 
 @Component

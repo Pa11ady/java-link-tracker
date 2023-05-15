@@ -12,19 +12,19 @@ public class JooqCodegen {
 
         Configuration configuration = new Configuration()
                 .withJdbc(
-                        new Jdbc().
-                                withDriver("org.postgresql.Driver").
-                                withUrl("jdbc:postgresql://localhost:5432/scrapper").
-                                withUsername("postgres").
-                                withPassword("postgres")
+                        new Jdbc()
+                                .withDriver("org.postgresql.Driver")
+                                .withUrl("jdbc:postgresql://localhost:5432/scrapper")
+                                .withUsername("postgres")
+                                .withPassword("postgres")
                 )
                 .withGenerator(
                         new Generator()
-                                .withDatabase(new Database().
-                                        withName("org.jooq.meta.postgres.PostgresDatabase").
-                                        withIncludes(".*").
-                                        withExcludes("").
-                                        withInputSchema("public"))
+                                .withDatabase(new Database()
+                                        .withName("org.jooq.meta.postgres.PostgresDatabase")
+                                        .withIncludes(".*")
+                                        .withExcludes("")
+                                        .withInputSchema("public"))
                                 .withTarget(target)
                 );
 

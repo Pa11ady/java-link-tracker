@@ -14,6 +14,7 @@ public class HelpCommand extends AbstractCommand {
     public HelpCommand(ICommandRegistry commandRegistry) {
         this("help", "вывести окно с командами",  commandRegistry);
     }
+
     public HelpCommand(String identifier, String description, ICommandRegistry commandRegistry) {
         super(identifier, description);
         this.commandRegistry = commandRegistry;
