@@ -10,9 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.telegram.command.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Getter
 public class TelegramBot extends TelegramLongPollingCommandBot {
