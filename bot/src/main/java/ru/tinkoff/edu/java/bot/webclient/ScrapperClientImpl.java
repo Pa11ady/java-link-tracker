@@ -1,7 +1,9 @@
 package ru.tinkoff.edu.java.bot.webclient;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -10,12 +12,17 @@ import ru.tinkoff.edu.java.bot.webclient.dto.AddLinkRequest;
 import ru.tinkoff.edu.java.bot.webclient.dto.LinkResponse;
 import ru.tinkoff.edu.java.bot.webclient.dto.ListLinkResponse;
 
-@RequiredArgsConstructor
+@Component
 public class ScrapperClientImpl implements ScrapperClient {
     private static final String TG_CHAT_ID = "Tg-Chat-Id";
     private static final String CHATS_URI = "/tg-chat/%s";
     private static final String LINKS = "/links";
     private final WebClient client;
+
+    @Autowired
+    public ScrapperClientImpl(@Qualifier("webClientScrapper") WebClient client) {
+        this.client = client;
+    }
 
     @Override
     public LinkResponse addLink(long chatId, String url) {
