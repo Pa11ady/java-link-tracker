@@ -59,4 +59,12 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         answer.setChatId(chatId.toString());
         execute(answer);
     }
+
+    @SneakyThrows
+    public void sendMessage(Long chatId, String text) {
+       SendMessage message = new SendMessage();
+       message.setChatId(chatId.toString());
+       message.setText(text);
+       execute(message);
+    }
 }

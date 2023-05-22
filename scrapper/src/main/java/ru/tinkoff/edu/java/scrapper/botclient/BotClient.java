@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.tinkoff.edu.java.scrapper.botclient.dto.LinkUpdate;
+import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
 
 @RequiredArgsConstructor
 public class BotClient {
