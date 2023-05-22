@@ -4,16 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import ru.tinkoff.edu.java.bot.webclient.ScrapperClient;
 
 @Slf4j
 public class TrackCommand extends AbstractCommand {
+    private final ScrapperClient scrapperClient;
 
-    public TrackCommand() {
-        this("track", "начать отслеживание ссылки");
+    public TrackCommand(ScrapperClient scrapperClient) {
+        this("track", "начать отслеживание ссылки", scrapperClient);
     }
 
-    public TrackCommand(String identifier, String description) {
+    public TrackCommand(String identifier, String description, ScrapperClient scrapperClient) {
         super(identifier, description);
+        this.scrapperClient = scrapperClient;
     }
 
     @Override
@@ -28,5 +31,6 @@ public class TrackCommand extends AbstractCommand {
             return;
         }
         printCommand(absSender, chat);
+        scrapperClient.addLink(chat.getId(), arguments[0]);
     }
 }

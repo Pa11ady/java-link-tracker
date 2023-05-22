@@ -4,16 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import ru.tinkoff.edu.java.bot.webclient.ScrapperClient;
 
 @Slf4j
 public class UntrackCommand extends AbstractCommand {
+    private final ScrapperClient scrapperClient;
 
-    public UntrackCommand() {
-        this("untrack", "прекратить отслеживание ссылки");
+    public UntrackCommand(ScrapperClient scrapperClient) {
+        this("untrack", "прекратить отслеживание ссылки", scrapperClient);
     }
 
-    public UntrackCommand(String identifier, String description) {
+    public UntrackCommand(String identifier, String description, ScrapperClient scrapperClient) {
         super(identifier, description);
+        this.scrapperClient = scrapperClient;
     }
 
     @Override
@@ -28,5 +31,6 @@ public class UntrackCommand extends AbstractCommand {
             return;
         }
         printCommand(absSender, chat);
+        scrapperClient.removeLink(chat.getId(), arguments[0]);
     }
 }

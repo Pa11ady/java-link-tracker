@@ -60,8 +60,8 @@ public class UpdateServiceImpl implements UpdateService {
     private void updateFromGutHub(String user, String repository, Link link) {
         String description;
         RepoResponse response = gitHubClient.findRepository(user, repository);
-        OffsetDateTime lastUpdated = response.updated_at();
-        OffsetDateTime lastPushed = response.pushed_at();
+        OffsetDateTime lastUpdated = response.updatedAt();
+        OffsetDateTime lastPushed = response.pushedAt();
 
         if (lastUpdated != null && link.getUpdated().isBefore(lastUpdated)) {
             description = "репозиторий был обновлён";
@@ -80,8 +80,8 @@ public class UpdateServiceImpl implements UpdateService {
     private void updateFromStackOverflow(String questionId, Link link) {
         String description;
         QuestionResponse response = stackOverflowClient.findQuestion(questionId);
-        OffsetDateTime lastEditDate = response.items().get(0).last_edit_date();
-        OffsetDateTime lastActivityDate = response.items().get(0).last_activity_date();
+        OffsetDateTime lastEditDate = response.items().get(0).lastEditDate();
+        OffsetDateTime lastActivityDate = response.items().get(0).lastActivityDate();
 
         if (lastEditDate != null && link.getUpdated().isBefore(lastEditDate)) {
             description = "вопрос был обновлён";

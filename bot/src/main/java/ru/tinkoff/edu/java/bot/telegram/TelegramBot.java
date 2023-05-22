@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tinkoff.edu.java.bot.telegram.command.*;
+import ru.tinkoff.edu.java.bot.webclient.ScrapperClient;
 
 @Slf4j
 @Getter
@@ -34,15 +35,15 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         register(helpCommand);
     }
 
-    public TelegramBot(String botUsername, String botToken) {
+    public TelegramBot(String botUsername, String botToken, ScrapperClient scrapperClient) {
         BotUsername = botUsername;
         BotToken = botToken;
 
         nonCommand = new NonCommand();
-        register(new StartCommand());
-        register(new TrackCommand());
-        register(new UntrackCommand());
-        register(new ListCommand());
+        register(new StartCommand(scrapperClient));
+        register(new TrackCommand(scrapperClient));
+        register(new UntrackCommand(scrapperClient));
+        register(new ListCommand(scrapperClient));
         HelpCommand helpCommand = new HelpCommand(this);
         register(helpCommand);
     }
