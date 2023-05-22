@@ -12,7 +12,7 @@ import ru.tinkoff.edu.java.scrapper.configuration.ApplicationProperties;
 @ConditionalOnProperty(prefix = "app", name = "use-queue", havingValue = "true")
 @Service
 @RequiredArgsConstructor
-public class ScrapperQueueProducer implements MessageService{
+public class ScrapperQueueProducer implements MessageService {
     private final ApplicationProperties properties;
     private final RabbitTemplate rabbitTemplate;
 

@@ -43,8 +43,8 @@ public class JdbcSubscriptionRepository implements SubscriptionRepository {
     @Override
     public Subscription find(long chatId, Long linkId) {
         final String sql = "SELECT * FROM chat_link WHERE (chat_id, link_id) = (?, ?)";
-        List<Subscription> subscriptions = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Subscription.class), chatId,
-                linkId);
+        List<Subscription> subscriptions = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Subscription.class),
+                chatId, linkId);
         if (subscriptions.isEmpty()) {
             return null;
         }
