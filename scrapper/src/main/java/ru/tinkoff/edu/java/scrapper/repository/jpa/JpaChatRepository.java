@@ -8,6 +8,12 @@ import ru.tinkoff.edu.java.scrapper.repository.ChatRepository;
 
 import java.util.List;
 
+/**
+ * Не было использованы JpaRepository, чтобы была совместимость с интерфейсом из прошлых заданий и чтобы по заданию
+ * в application.properties можно было менять свойство app.database-access-type на JDBC или JPA или JOOQ.
+ * Свойство app.database-access-type позволяет инжектить разную реализацию репозитория
+ */
+
 @RequiredArgsConstructor
 public class JpaChatRepository implements ChatRepository {
     private final EntityManager entityManager;
