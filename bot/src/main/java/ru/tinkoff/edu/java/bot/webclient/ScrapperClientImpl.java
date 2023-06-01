@@ -1,7 +1,6 @@
 package ru.tinkoff.edu.java.bot.webclient;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -20,7 +19,7 @@ public class ScrapperClientImpl implements ScrapperClient {
     private final WebClient client;
 
     @Autowired
-    public ScrapperClientImpl(@Qualifier("webClientScrapper") WebClient client) {
+    public ScrapperClientImpl(WebClient client) {
         this.client = client;
     }
 
